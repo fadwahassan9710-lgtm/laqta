@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>لقطة · دراسة الاستخدام اليومي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f0f5; --surface:#ffffff; --text:#1d1a22; --muted:#6e6878; --line:#e6e2ea;
+  --brand:#6a2ccf; --brand2:#ff6b5b; --like:#ed4956; --focus:#2f6fed; --ok:#1f8a5b; --warn:#b4541b;
+  --chip:#f1edf7; --chipText:#4b2c86; --sheet:#ffffff; --overlay:rgba(20,16,28,.45);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141217; --surface:#1d1a22; --text:#f2eff6; --muted:#a59fae; --line:#302b37;
+    --chip:#2a2436; --chipText:#d8c9fb; --sheet:#24202b; --overlay:rgba(0,0,0,.6); --ok:#4cc18c; --warn:#f0965a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141217; --surface:#1d1a22; --text:#f2eff6; --muted:#a59fae; --line:#302b37;
+  --chip:#2a2436; --chipText:#d8c9fb; --sheet:#24202b; --overlay:rgba(0,0,0,.6); --ok:#4cc18c; --warn:#f0965a; color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",Arial,sans-serif;font-size:16px;line-height:1.7;}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.shell{max-width:470px;margin:0 auto;min-height:100vh;background:var(--surface);position:relative}
+
+/* study screens */
+.study{padding:36px 22px 120px}
+.study h1{font-size:1.5rem;line-height:1.35;margin:0 0 12px;font-weight:700}
+.study h2{font-size:1.1rem;margin:22px 0 8px}
+.study p{margin:0 0 14px}
+.lead{color:var(--muted)}
+.prog{font-size:.8rem;color:var(--muted);margin-bottom:10px}
+.bar{height:4px;background:var(--line);border-radius:4px;margin-bottom:22px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--brand)}
+.facts{margin:18px 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.facts li{padding:11px 0;border-bottom:1px solid var(--line);font-size:.94rem}
+.check{display:flex;gap:10px;align-items:flex-start;margin:22px 0;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:4px;accent-color:var(--brand)}
+.primary{display:block;width:100%;border:0;border-radius:12px;padding:14px 18px;background:var(--brand);color:#fff;
+  font-weight:600;font-size:1rem;cursor:pointer;text-align:center;text-decoration:none}
+.primary:disabled{opacity:.4;cursor:not-allowed}
+.ghost{background:none;border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;font-size:.9rem}
+.err{color:var(--warn);font-size:.88rem;min-height:1.5em;margin-top:10px}
+.foot{margin-top:30px;font-size:.78rem;color:var(--muted);text-align:center}
+.foot button{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:.78rem}
+.status{border:1px solid var(--line);border-radius:14px;padding:16px;margin:18px 0}
+.status .big{font-size:1.15rem;font-weight:600;margin-bottom:4px}
+.dots{display:flex;gap:8px;margin:12px 0 4px}
+.dots span{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:.85rem;border:1.5px solid var(--line);color:var(--muted)}
+.dots span.done{background:var(--brand);border-color:var(--brand);color:#fff}
+.dots span.next{border-color:var(--brand);color:var(--brand);font-weight:600}
+.code{font-size:1.4rem;font-weight:700;direction:ltr;letter-spacing:1px;margin:4px 0 14px}
+.linkbox{direction:ltr;font-size:.8rem;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;word-break:break-all;margin:8px 0}
+
+/* survey items */
+.q{border:0;margin:0 0 26px;padding:0}
+.q legend{font-weight:500;margin-bottom:10px;padding:0;line-height:1.6}
+.lik{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.lik button{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 0;cursor:pointer;font-weight:600}
+.lik button[aria-pressed="true"],.opts button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.ends{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);margin-top:4px}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opts button{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;cursor:pointer;text-align:right}
+.opts.row{flex-direction:row;flex-wrap:wrap}
+.opts.row button{flex:1 1 auto}
+.inp{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface)}
+.q.missing legend{color:var(--warn)}
+
+/* app chrome */
+.appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;padding:10px 16px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.35rem}
+.logo i{width:26px;height:26px;border-radius:8px;display:inline-block;background:linear-gradient(135deg,var(--brand),var(--brand2))}
+.appbar .icons{display:flex;gap:10px;align-items:center}
+.adjust{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:.8rem;cursor:pointer}
+.stories{display:flex;gap:14px;overflow-x:auto;padding:12px 16px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.stories::-webkit-scrollbar{display:none}
+.story{flex:0 0 auto;text-align:center;font-size:.72rem;color:var(--muted);width:62px}
+.story .ring{width:60px;height:60px;border-radius:50%;padding:2.5px;background:linear-gradient(135deg,var(--brand2),var(--brand));margin:0 auto 4px}
+.story .av{width:100%;height:100%;border-radius:50%;border:2.5px solid var(--surface);display:grid;place-items:center;font-weight:600;font-size:1.1rem;color:#fff}
+.feedhead{padding:12px 16px 4px;font-size:.88rem;color:var(--muted)}
+.feedhead .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip{background:var(--chip);color:var(--chipText);border-radius:999px;padding:2px 10px;font-size:.8rem;font-weight:500}
+.post{border-bottom:1px solid var(--line);padding-bottom:8px}
+.post.hidden-ad{padding:18px 16px;color:var(--muted);font-size:.9rem}
+.phead{display:flex;align-items:center;gap:10px;padding:10px 14px}
+.pav{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.85rem;flex:0 0 auto}
+.pmeta{line-height:1.3;min-width:0}
+.pname{font-weight:600;font-size:.92rem;direction:ltr;unicode-bidi:plaintext;text-align:right}
+.psub{font-size:.75rem;color:var(--muted)}
+.psub.pers{color:var(--brand);font-weight:500}
+.why{background:none;border:0;padding:0;margin-top:2px;color:var(--muted);font-size:.74rem;text-decoration:underline;cursor:pointer;display:block}
+.tile{aspect-ratio:1/1;width:100%;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;color:#fff;
+  user-select:none;-webkit-user-select:none;overflow:hidden}
+.tile .big{position:absolute;inset:0;display:grid;place-items:center;font-size:7.5rem;line-height:1}
+.tile .tt{position:relative;font-weight:700;font-size:1.45rem;text-shadow:0 1px 8px rgba(0,0,0,.25)}
+.tile .badge{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.9);color:#2a2433;border-radius:999px;padding:2px 12px;font-size:.8rem;font-weight:600}
+.tile .burst{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0}
+.tile .burst svg{width:96px;height:96px;fill:#fff;filter:drop-shadow(0 2px 10px rgba(0,0,0,.3))}
+.tile .burst.on{animation:pop .7s ease-out}
+@keyframes pop{0%{opacity:0;transform:scale(.4)}25%{opacity:1;transform:scale(1.1)}70%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.cta{display:flex;justify-content:space-between;align-items:center;width:100%;border:0;border-bottom:1px solid var(--line);
+  background:var(--chip);color:var(--chipText);padding:10px 14px;font-weight:600;font-size:.9rem;cursor:pointer;text-align:right}
+.actions{display:flex;align-items:center;gap:4px;padding:4px 8px}
+.actions .save{margin-inline-start:auto}
+.ib{background:none;border:0;padding:8px;cursor:pointer;line-height:0;border-radius:8px}
+.ib svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.ib[aria-pressed="true"].like svg{fill:var(--like);stroke:var(--like)}
+.ib[aria-pressed="true"].save svg{fill:currentColor}
+.ib[aria-pressed="true"].share svg{stroke:var(--brand)}
+.likes{padding:0 14px;font-weight:600;font-size:.88rem}
+.cap{padding:2px 14px 4px;font-size:.92rem}
+.cap b{font-weight:600;direction:ltr;unicode-bidi:plaintext}
+.endfeed{padding:28px 16px 140px;text-align:center;color:var(--muted);font-size:.9rem}
+.donebar{position:fixed;bottom:0;left:0;right:0;z-index:8;pointer-events:none}
+.donebar .in{max-width:470px;margin:0 auto;background:var(--surface);border-top:1px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));pointer-events:auto}
+.donebar .hint{font-size:.8rem;color:var(--muted);text-align:center;margin-bottom:6px}
+
+/* overlays */
+.overlay{position:fixed;inset:0;background:var(--overlay);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--sheet);width:100%;max-width:470px;border-radius:18px 18px 0 0;max-height:88vh;overflow:auto;
+  padding:18px 20px calc(20px + env(safe-area-inset-bottom,0px));animation:up .2s ease-out}
+@keyframes up{from{transform:translateY(30px);opacity:.6}to{transform:none;opacity:1}}
+.sheet h2{font-size:1.1rem;margin:0 0 8px}
+.sheet p{margin:0 0 12px;font-size:.95rem}
+.sheet .opt{display:block;width:100%;text-align:right;background:none;border:0;border-bottom:1px solid var(--line);padding:14px 4px;cursor:pointer;font-size:1rem}
+.sheet .grab{width:40px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 14px}
+.sheet .row2{display:flex;gap:8px;margin-top:6px}
+.sheet .row2 .ghost{flex:1}
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--surface);padding:8px 16px;
+  border-radius:999px;font-size:.85rem;z-index:30;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1}
+
+/* researcher panel */
+.dbg{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:8px;z-index:40;background:#1d1a22;color:#f2eff6;border-radius:12px;
+  padding:10px 12px;font-size:.74rem;line-height:1.55;width:214px;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.dbg b{color:#c9b5ff}
+.dbg select,.dbg button{font-size:.74rem;margin-top:4px;width:100%;border-radius:6px;border:0;padding:4px;cursor:pointer;background:#3a3346;color:#f2eff6}
+.dbg .min{position:absolute;top:6px;left:8px;width:auto;background:none;color:#c9b5ff;padding:0}
+textarea.data{width:100%;min-height:160px;direction:ltr;font-family:Consolas,Menlo,monospace;font-size:.72rem;background:var(--bg);color:var(--text);
+  border:1px solid var(--line);border-radius:10px;padding:10px}
+@media (prefers-reduced-motion: reduce){ .tile .burst.on,.sheet{animation:none} .toast{transition:none} }
+</style>
+</head>
+<body>
+<div class="shell" id="app"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =====================================================================
+   إعدادات الباحثة — عدّلي هذا الجزء فقط
+   ===================================================================== */
+const CONFIG = {
+  version: "laqta-2.0",
+  appName: "لقطة",
+  brandAr: "رحلة للسفر",
+  brandHandle: "rehla.travel",
+  endpoint: "",                  //https://script.google.com/macros/s/AKfycbwC4XjKR5OzI08KXcePGEyOfX6kMflgDCpWKCCO1jR3MDse2OKkvzzu7YiaDfTQHMbi/exec
+  sessions: 5,                   // عدد الجلسات اليومية
+  minSessionSeconds: 60,         // أقل مدة تصفح في الجلسة
+  requireNextDay: true,          // كل جلسة في يوم مختلف عن السابقة
+  maxGapDays: 2,                 // فجوة أكبر من يومين = تفويت جلستين متتاليتين = انتهاء المشاركة
+  followupDelayDays: 7,          // المتابعة T3 بعد الجلسة الخامسة بسبعة أيام (اليوم 12)
+  window: { enforce: true, start: 18, end: 23 },   // نافذة الجلسات 6 م – 11 م
+  adSlots: [1, 4, 7, 10],        // مواضع الإعلانات من 12 (المواضع 2 و5 و8 و11)
+  setSize: 8,                    // حجم مجموعة الإعلانات الدوّارة لكل مشارك
+  adsPerSession: 4,
+  showResearcherTools: true,     // اجعليها false قبل الإطلاق
+  // وسوم التخصيص: "neutral" = «ممول» للجميع ورأس فيد موحد (مطابق للبروتوكول المعدّل)
+  //               "suggested" = «مقترح لك بناءً على اهتماماتك» ورأس «مختار لك» في التخصيص العالي فقط
+  //               "random" = يُوزَّع كل مشارك عشوائياً على إحدى الطريقتين (للدراسة الأولية Pilot فقط)
+  labelMode: "random",
+  conditions: {
+    A: { pers: "high", cue: true  },
+    B: { pers: "high", cue: false },
+    C: { pers: "low",  cue: true  },
+    D: { pers: "low",  cue: false }
+  }
+};
+
+/* ============================ التفضيلات والإعلانات ============================ */
+const DEST  = { beach:"البحر", desert:"الصحراء", historic:"الأماكن التاريخية", nature:"الطبيعة والجبال" };
+const STYLE = { budget:"رحلات اقتصادية", premium:"رحلات فاخرة" };
+const COMP  = { solo:"السفر وحدي", friends:"السفر مع الأصدقاء", family:"السفر مع العائلة" };
+const DEST_COLORS = { beach:["#bfe9f7","#1f7fb0"], desert:["#f6dfb5","#c27a2c"], historic:["#efe0c2","#8f6a2e"], nature:["#cfeccf","#2f7d4a"] };
+
+const AD_BASE = {
+  "beach|budget":     { place:"دهب",            em:"🏖️", text:"يومان على شاطئ دهب: إقامة بسيطة قريبة من البحر، وغطس وسباحة بسعر مناسب." },
+  "beach|premium":    { place:"مرسى علم",       em:"🏝️", text:"إقامة فاخرة في مرسى علم: منتجع على البحر مباشرة، وشاطئ خاص، وغطس مع مرشد." },
+  "desert|budget":    { place:"سيوة",           em:"⛺", text:"رحلة اقتصادية إلى سيوة: مخيم بسيط، وعيون مياه طبيعية، وغروب على الكثبان." },
+  "desert|premium":   { place:"الصحراء البيضاء", em:"🏜️", text:"تجربة فاخرة في الصحراء البيضاء: خيام مجهزة، وعشاء تحت النجوم، وسيارات دفع رباعي." },
+  "historic|budget":  { place:"الأقصر",          em:"🏛️", text:"جولة اقتصادية في الأقصر: معبد الكرنك ووادي الملوك مع مرشد، وإقامة بسيطة." },
+  "historic|premium": { place:"الأقصر وأسوان",   em:"⛵", text:"جولة فاخرة في الأقصر وأسوان: فنادق خمس نجوم، ومرشد خاص، ورحلة نيلية." },
+  "nature|budget":    { place:"سانت كاترين",     em:"⛰️", text:"رحلة اقتصادية إلى سانت كاترين: صعود الجبل فجراً، ونزل بسيط، ووجبات محلية." },
+  "nature|premium":   { place:"الفيوم",          em:"🌿", text:"إقامة فاخرة في الفيوم: نزل بيئي على البحيرة، ووادي الريان، وجولات خاصة." }
+};
+const COMP_TXT = {
+  solo:    { head:"لوحدك",     text:"مصممة لمن يسافر وحده، مع مجموعة صغيرة ومرشد." },
+  friends: { head:"مع أصحابك", text:"مثالية للسفر مع الأصدقاء، بأنشطة جماعية وسهرات." },
+  family:  { head:"مع العائلة", text:"مناسبة للعائلات، ببرنامج هادئ وأنشطة للأطفال." }
+};
+const ADS = [];
+Object.keys(DEST).forEach(d => Object.keys(STYLE).forEach(s => Object.keys(COMP).forEach(c => {
+  const b = AD_BASE[d + "|" + s];
+  ADS.push({ id:`ad_${d}_${s}_${c}`, dest:d, style:s, comp:c, em:b.em,
+    tt:`${b.place} ${COMP_TXT[c].head}`, badge: s === "budget" ? "اقتصادي" : "فاخر",
+    cap:`${b.text} ${COMP_TXT[c].text} احجز مع ${CONFIG.brandAr}.` });
+})));
+const AD = Object.fromEntries(ADS.map(a => [a.id, a]));
+
+/* ============================ المنشورات العادية (40 = 8 × 5 جلسات) ============================ */
+const ORG_RAW = [
+  ["nile.walks","🌅","غروب على النيل","أجمل وقت للتمشية على كورنيش النيل قبل المغرب بنص ساعة، الجو والهدوء مختلفين تماماً."],
+  ["cairo.food.map","🥙","فطار شعبي","فول وطعمية وعيش بلدي سخن في شارع جانبي بوسط البلد. أبسط فطار وأحلاه."],
+  ["photo.by.amr","📷","زاوية مختلفة","نصيحة تصوير: انزل بالكاميرا لمستوى الأرض، هتلاقي نفس المكان شكله مختلف خالص."],
+  ["safar.notes","🎒","شنطة خفيفة","قاعدتي في أي سفرة: لو مش هلبسها مرتين، مش هتدخل الشنطة."],
+  ["green.balcony","🪴","بلكونة خضرا","زرعت ريحان ونعناع في البلكونة، والريحة كل صبح بقت أحلى حاجة في اليوم."],
+  ["coffee.corner","☕","قهوة الصبح","قهوة تركي على نار هادية وكتاب صغير. ربع ساعة لنفسك قبل زحمة اليوم."],
+  ["old.cairo.lens","🕌","شارع المعز","شارع المعز بالليل له سحر خاص، والإضاءة على المباني القديمة تحفة."],
+  ["weekend.ideas","🧺","نزهة بسيطة","فكرة للويك إند: بطانية وسندوتشات وحديقة قريبة. مش لازم سفر عشان تغيّر جو."],
+  ["sea.lover","🐚","صوت البحر","مفيش حاجة بتريّح الدماغ زي صوت الموج الصبح بدري قبل ما الناس تنزل."],
+  ["maps.and.mugs","🗺️","خريطة ورقية","لسه بحب الخرائط الورقية، بتخليك تشوف المدينة كلها مرة واحدة."],
+  ["baking.with.dina","🍪","بسكويت بالشوفان","بسكويت شوفان وعسل من غير سكر، بيخلص في نص ساعة من الفرن."],
+  ["sunrise.club","🌄","أول ضوء","صحيت بدري عشان الشروق، والصورة دي كانت تستاهل كل دقيقة نوم ضاعت."],
+  ["street.colors","🎨","ألوان الشارع","جدار ملون في حي قديم. الفن في الشارع بيدّي الأماكن روح جديدة."],
+  ["tea.time.eg","🫖","شاي بالنعناع","كوباية شاي بالنعناع بعد الغدا عادة مش هتنتهي في بيوتنا."],
+  ["train.window","🚆","من شباك القطر","رحلة القطر للصعيد طويلة، بس المناظر من الشباك بتعوض كل ساعة."],
+  ["desk.setup","💻","مكتب مرتب","رتبت مكتبي وحطيت نبتة صغيرة جنب اللابتوب، والتركيز بقى أحسن فعلاً."],
+  ["market.days","🍊","سوق الخضار","ألوان سوق الخضار الصبح أحلى من أي لوحة. موسم البرتقال بدأ."],
+  ["slow.fridays","📖","يوم هادي","الجمعة بالنسبالي يعني موبايل بعيد، ورواية، وأكلة بيتي."],
+  ["night.sky.eg","✨","سماء صافية","بعيد عن أنوار المدينة بساعتين بس، والنجوم بتبان بالشكل ده."],
+  ["bike.city","🚲","عجلة الصبح","لفة بالعجلة الساعة ستة الصبح قبل الزحمة، والشوارع كلها ليك."],
+  ["home.cook.salma","🍲","شوربة عدس","شوربة عدس بالكمون والليمون، أكلة الشتا الرسمية في بيتنا."],
+  ["tiny.travels","✈️","نصيحة مطار","صوّر مكان ركنة العربية في المطار قبل ما تمشي، هتشكر نفسك وانت راجع."],
+  ["river.boats","⛵","مركب شراعي","ساعة في فلوكة على النيل بعد العصر، أرخص وأجمل خروجة في القاهرة."],
+  ["sketch.daily","✏️","رسمة سريعة","رسمت الكوباية اللي قدامي في خمس دقايق. التمرين اليومي بيفرق."],
+  ["plant.mom","🌵","صبار صغير","الصبار أسهل نبات للمبتدئين: مية مرة في الأسبوع وشمس وخلاص."],
+  ["alex.vibes","🌊","كورنيش إسكندرية","إسكندرية في الشتا ليها طعم تاني، البحر عالي والهوا بارد."],
+  ["fitness.walks","👟","عشرة آلاف خطوة","هدفي الأسبوع ده عشرة آلاف خطوة يومياً، ولحد دلوقتي ماشي كويس."],
+  ["vintage.finds","📻","راديو قديم","لقيت راديو قديم في سوق الجمعة، لسه شغال وصوته دافي."],
+  ["cairo.rooftops","🌇","من فوق السطح","منظر القاهرة من فوق السطح وقت المغرب، والمدينة كلها بتنور مرة واحدة."],
+  ["bread.lab","🍞","عيش في البيت","أول مرة أخبز عيش في البيت، مش مثالي بس الريحة ملت الشقة."],
+  ["quiet.cafes","🍰","كافيه هادي","لقيت كافيه صغير هادي للمذاكرة، من غير موسيقى عالية ولا زحمة."],
+  ["lens.on.people","🧑‍🌾","وجوه من الريف","الناس في الريف بيرحبوا بيك كأنك تعرفهم من سنين."],
+  ["palm.roads","🌴","نخل وشمس","النخل على الطريق الزراعي مع شمس العصر منظر بيفكرني بطفولتي."],
+  ["museum.days","🏺","يوم في المتحف","قضيت اليوم في المتحف، وكل قاعة حكاية لوحدها."],
+  ["rain.cairo","🌧️","مطرة القاهرة","أول مطرة السنة دي، الشوارع اتغسلت وريحة التراب حلوة."],
+  ["journal.habit","📓","دفتر يومي","بكتب ثلاث حاجات حلوة حصلت كل يوم قبل النوم. عادة بسيطة بتغيّر المزاج."],
+  ["kites.corniche","🪁","طيارة ورق","طيارات الورق على الكورنيش يوم الجمعة، وفرحة الأطفال بيها ملهاش حدود."],
+  ["spice.shop","🌶️","محل العطارة","ريحة محل العطارة القديم بتاخدك لزمن تاني: كمون وكزبرة وقرفة."],
+  ["sunset.chaser","🌆","آخر شمس","كل يوم بحاول ألحق الغروب من مكان جديد في المدينة."],
+  ["calm.mornings","🧘","صباح هادي","عشر دقايق تمدد وتنفس قبل الشغل بتفرق جداً في باقي اليوم."]
+];
+const ORG_COLORS = [["#f3c9d4","#b8476d"],["#c9eedc","#23855b"],["#ffdcb8","#d4691f"],["#cfdcff","#3450c9"],
+                    ["#c4ebfb","#167fae"],["#ecdcc4","#8a5a2b"],["#ddd0ff","#5f35c4"],["#fbdccf","#c9745a"]];
+const ORGS = ORG_RAW.map((r, i) => ({ id:"org_" + String(i + 1).padStart(2, "0"), user:r[0], em:r[1], tt:r[2], cap:r[3], col:ORG_COLORS[i % 8] }));
+const ORG = Object.fromEntries(ORGS.map(o => [o.id, o]));
+
+const SLOT_LIKES = [1284,1197,1342,1226,1311,1253,1189,1367,1240,1302,1275,1218];
+const SLOT_TIMES = ["منذ ساعة","منذ ساعتين","منذ ٣ ساعات","منذ ٤ ساعات","منذ ٥ ساعات","منذ ٦ ساعات","منذ ٧ ساعات","منذ ٨ ساعات","منذ ٩ ساعات","منذ ١٠ ساعات","منذ ١١ ساعة","منذ ١٢ ساعة"];
+const STORIES = [["سارة","#c45b7c"],["أحمد","#3450c9"],["منى","#23855b"],["كريم","#d4691f"],["ليلى","#5f35c4"],["يوسف","#167fae"]];
+
+/* ============================ الاستبيانات ============================ */
+const L = (id, text, extra) => Object.assign({ id, type:"likert", text }, extra || {});
+const ATT_A = L("att_a", "لتأكيد انتباهك، اختر «7» (أوافق بشدة) في هذا السؤال.", { attn:7 });
+const ATT_B = L("att_b", "لتأكيد انتباهك، اختر الرقم «2» في هذا السؤال.", { attn:2 });
+const APP = "«لقطة»";
+const ITEMS = {
+  trust: [
+    L("tr1", `أثق في أن ${APP} تقدم لي محتوى ومعلومات صادقة.`),
+    L("tr2", `أعتقد أن الإعلانات التي تظهر على ${APP} موثوقة.`),
+    L("tr3", `أشعر أن ${APP} تراعي مصلحتي كمستخدم.`),
+    L("tr4", `أثق في أن ${APP} تتعامل مع بياناتي بأمانة.`) ],
+  pu: [
+    L("pu1", `المحتوى الذي رأيته على ${APP} مفيد بالنسبة لي.`),
+    L("pu2", "الإعلانات التي رأيتها ساعدتني على التعرف على خيارات تهمني."),
+    L("pu3", `استخدام ${APP} يساعدني على إيجاد ما أبحث عنه بسرعة أكبر.`),
+    L("pu4", `بشكل عام، أجد المحتوى المعروض على ${APP} ذا قيمة.`) ],
+  pc: [
+    L("pc1", `أشعر بالقلق من كمية البيانات التي تجمعها ${APP} عني.`),
+    L("pc2", "أخشى أن تُستخدم بياناتي لأغراض لم أوافق عليها."),
+    L("pc3", `يزعجني أن ${APP} تعرف الكثير عن اهتماماتي.`),
+    L("pc4", `أشعر بالقلق على خصوصيتي عند استخدام ${APP}.`) ],
+  ctrl: [
+    L("ct1", `أشعر أنني أتحكم في نوع الإعلانات التي تظهر لي على ${APP}.`),
+    L("ct2", `أشعر أنني أتحكم في طريقة استخدام ${APP} لبياناتي.`),
+    L("ct3", `أعرف كيف أغيّر ما يُعرض لي على ${APP} إذا أردت.`) ],
+  eng: [
+    L("en1", "من المحتمل أن أضغط إعجاباً على محتوى مثل الذي رأيته."),
+    L("en2", "من المحتمل أن أشارك محتوى مثل الذي رأيته مع أصدقائي."),
+    L("en3", `من المحتمل أن أرشح ${APP} لأصدقائي وعائلتي.`),
+    L("en4", "من المحتمل أن أحفظ إعلانات مثل التي رأيتها للرجوع إليها لاحقاً.") ],
+  manip: [
+    L("mp1", "الإعلانات التي رأيتها طابقت اهتماماتي."),
+    L("mp2", `شعرت أن ${APP} اختارت المحتوى لي شخصياً.`),
+    L("mp3", "الإعلانات التي رأيتها كانت مناسبة لنوع السفر الذي أفضله."),
+    L("mt1", `شرحت لي ${APP} لماذا رأيت كل إعلان.`),
+    L("mt2", `أتاحت لي ${APP} تغيير الإعلانات التي تظهر لي.`) ],
+  realism: [
+    L("re1", `شعرت أن ${APP} تشبه التطبيقات التي أستخدمها عادة.`),
+    L("re2", `تصفّحت ${APP} بالطريقة التي أتصفح بها إنستجرام عادة.`),
+    L("re3", "الإعلانات التي رأيتها بدت واقعية."),
+    { id:"discussed", type:"choice", text:`هل تحدثت مع أي شخص آخر عن تطبيق ${APP} خلال الأيام الماضية؟`, options:["نعم","لا"], row:true } ]
+};
+const T0_PAGES = [
+  { title:"معلومات عنك", items:[
+    { id:"age", type:"number", text:"كم عمرك؟ (بالسنوات)", min:15, max:90 },
+    { id:"gender", type:"choice", text:"النوع", options:["ذكر","أنثى"], row:true },
+    { id:"education", type:"choice", text:"أعلى مؤهل دراسي", options:["ثانوي أو أقل","دبلوم","بكالوريوس أو ليسانس","دراسات عليا"] },
+    { id:"occupation", type:"choice", text:"وضعك الحالي", options:["طالب متفرغ","موظف","عمل حر","لا أعمل حالياً","أخرى"] },
+    { id:"income", type:"choice", text:"الدخل الشهري التقريبي (جنيه)", options:["أقل من 10,000","10,000 – 20,000","20,001 – 40,000","أكثر من 40,000","أفضّل عدم الإجابة"] } ] },
+  { title:"استخدامك لوسائل التواصل", items:[
+    { id:"ig_minutes", type:"choice", text:"كم من الوقت تقضيه على إنستجرام يومياً تقريباً؟", options:["أقل من 30 دقيقة","30 – 60 دقيقة","1 – 2 ساعة","2 – 4 ساعات","أكثر من 4 ساعات"] },
+    L("ai1", "أرى أن استخدام الذكاء الاصطناعي في التطبيقات أمر مفيد."),
+    L("ai2", "أشعر بالارتياح عندما تقترح التطبيقات محتوى باستخدام الذكاء الاصطناعي."),
+    L("ai3", "أثق بشكل عام في التقنيات التي تعتمد على الذكاء الاصطناعي.") ] },
+  { title:"رأيك في تطبيقات التواصل", items:[
+    L("trg1", "أثق في أن تطبيقات التواصل التي أستخدمها تقدم محتوى ومعلومات صادقة."),
+    L("trg2", "أعتقد أن الإعلانات على تطبيقات التواصل موثوقة."),
+    L("trg3", "أشعر أن تطبيقات التواصل تراعي مصلحتي كمستخدم."),
+    ATT_A,
+    L("trg4", "أثق في أن تطبيقات التواصل تتعامل مع بياناتي بأمانة.") ] },
+  { title:"رأيك في تطبيقات التواصل", items:[
+    L("pcg1", "أشعر بالقلق من كمية البيانات التي تجمعها تطبيقات التواصل عني."),
+    L("pcg2", "أخشى أن تُستخدم بياناتي لأغراض لم أوافق عليها."),
+    L("pcg3", "يزعجني أن تطبيقات التواصل تعرف الكثير عن اهتماماتي."),
+    L("pcg4", "أشعر بالقلق على خصوصيتي عند استخدام تطبيقات التواصل.") ] },
+  { title:"اهتمامك بالسفر", items:[
+    L("tv1", "السفر من أهم اهتماماتي."),
+    L("tv2", "أتابع محتوى السفر على وسائل التواصل باستمرار."),
+    ATT_B,
+    L("tv3", "أخطط لرحلة واحدة على الأقل خلال العام القادم.") ] }
+];
+function wavePages(wave){
+  const rng = rngFor(state.pid + "|" + wave);
+  const blocks = shuffle([ITEMS.trust, ITEMS.pu, ITEMS.pc, ITEMS.ctrl, ITEMS.eng], rng).map(items => ({ title:"رأيك في تجربتك", items:items.slice() }));
+  blocks[1].items.splice(2, 0, ATT_A);
+  blocks[3].items.splice(1, 0, ATT_B);
+  blocks.push({ title:"عن الإعلانات التي رأيتها", items:ITEMS.manip });
+  if (wave === "T2") blocks.push({ title:"عن التطبيق", items:ITEMS.realism });
+  return blocks;
+}
+const T3_PAGES = [
+  { title:"سؤال سريع", intro:"أجب من ذاكرتك فقط، دون البحث.", items:[
+    { id:"recall", type:"text", text:"هل تتذكر اسم شركة السفر التي ظهرت إعلاناتها على «لقطة»؟ اكتبه، أو اكتب «لا أتذكر».", optional:false } ] },
+  { title:"ملاحظاتك", items:[
+    { id:"feedback", type:"longtext", text:"هل لاحظت أي اختلافات في الإعلانات أو في مزايا التطبيق خلال الجلسات؟ اكتب ما لاحظته (اختياري).", optional:true } ] },
+  { title:`رأيك في «${CONFIG.brandAr}»`, items:[
+    L("lo1", `سأفكر في «${CONFIG.brandAr}» أولاً عندما أخطط لرحلتي القادمة.`),
+    L("lo2", `أنوي الحجز مع «${CONFIG.brandAr}» إذا احتجت لرحلة.`),
+    ATT_A,
+    L("lo3", `سأرشح «${CONFIG.brandAr}» لأصدقائي وعائلتي.`),
+    L("ta1", `أثق في «${CONFIG.brandAr}» كشركة سفر.`),
+    ATT_B ] }
+];
+
+/* ============================ أدوات ============================ */
+function mulberry32(a){ return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function rngFor(str){ let h = 1779033703 ^ str.length; for (let i = 0; i < str.length; i++){ h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h << 13 | h >>> 19; } return mulberry32(h); }
+function shuffle(arr, rng){ const a = arr.slice(), r = rng || Math.random; for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const ar = n => Number(n).toLocaleString("ar-EG");
+const $app = document.getElementById("app");
+const params = new URLSearchParams(location.search);
+const KEY = "laqta_study_v2";
+function toast(msg){ const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toast._h); toast._h = setTimeout(() => t.classList.remove("on"), 2200); }
+function nowMs(){ return Date.now() + (state ? state.offset : 0) * 864e5; }
+function today(){ const d = new Date(nowMs()); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+function dayDiff(a, b){ return Math.round((Date.parse(b) - Date.parse(a)) / 864e5); }
+function hourNow(){ return new Date(nowMs()).getHours(); }
+const h12 = h => (h > 12 ? h - 12 : h) + (h >= 12 ? " مساءً" : " صباحاً");
+const cond = () => CONFIG.conditions[state.cond];
+const lm = () => state.labelMode || (CONFIG.labelMode === "suggested" ? "suggested" : "neutral");
+
+/* ============================ الحالة والحفظ ============================ */
+let state = null;
+function freshState(pid){
+  return { v:2, pid, cond:null, createdAt:new Date().toISOString(), enrollDate:null, consent:false, t0:false, eligible:null,
+    demo:{}, profile:null, lowSet:null, weights:{ dest:{}, style:{}, comp:{} }, hidden:[], exposures:{},
+    labelMode:null, sessions:[], lastAds:[], t1:false, t2:false, t3:false, debriefed:false, ended:false, withdrawn:false,
+    attnFails:0, outbox:[], log:[], offset:0, bypass:false };
+}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)); } catch(e){ return null; } }
+function compact(){
+  return { cond:state.cond, labelMode:state.labelMode, enrollDate:state.enrollDate, profile:state.profile, demo:state.demo, lowSet:state.lowSet, weights:state.weights,
+    hidden:state.hidden, exposures:state.exposures, lastAds:state.lastAds, t0:state.t0, t1:state.t1, t2:state.t2, t3:state.t3,
+    eligible:state.eligible, ended:state.ended, debriefed:state.debriefed, attnFails:state.attnFails,
+    sessions:state.sessions.map(s => ({ n:s.n, date:s.date })) };
+}
+function send(type, data){
+  const rec = Object.assign({ type, pid:state.pid, cond:state.cond, ts:new Date().toISOString(), local_date:today(), version:CONFIG.version }, data, { state:compact() });
+  state.outbox.push(rec); state.log.push(rec); save(); flush();
+}
+let flushing = false;
+async function flush(){
+  if (!CONFIG.endpoint || flushing || !state.outbox.length) { updateDebug(); return; }
+  flushing = true;
+  try {
+    while (state.outbox.length) {
+      await fetch(CONFIG.endpoint, { method:"POST", mode:"no-cors", body:JSON.stringify(state.outbox[0]) });
+      state.outbox.shift(); save();
+    }
+  } catch(e) { /* يُعاد الإرسال في الزيارة القادمة */ }
+  flushing = false; updateDebug();
+}
+async function fetchJSON(qs){
+  const r = await fetch(CONFIG.endpoint + (CONFIG.endpoint.includes("?") ? "&" : "?") + qs);
+  return r.json();
+}
+
+/* ============================ البدء ============================ */
+async function init(){
+  let pid = params.get("pid");
+  const saved = load();
+  if (saved && (!pid || saved.pid === pid)) state = saved;
+  else {
+    pid = pid || ("P" + Math.floor(100000 + Math.random() * 900000));
+    state = freshState(pid);
+    if (CONFIG.endpoint && params.get("pid")) {
+      try { const r = await fetchJSON("action=state&pid=" + encodeURIComponent(pid)); if (r && r.state) Object.assign(state, r.state, { sessions:(r.state.sessions || []).map(s => Object.assign({}, s)) }); } catch(e){}
+    }
+  }
+  if (!params.get("pid")) { try { const u = new URL(location.href); u.searchParams.set("pid", state.pid); history.replaceState(null, "", u.toString()); } catch(e){} }
+  if (params.get("debug") === "1") state.researcher = true;
+  save(); flush(); route();
+}
+
+/* ============================ التوجيه بين الشاشات ============================ */
+function route(){
+  window.scrollTo(0, 0);
+  if (state.withdrawn) return screenMsg("تم سحب بياناتك", "سجّلنا طلب حذف بياناتك. شكراً لوقتك.");
+  if (!state.consent) return screenConsent();
+  if (!state.t0) return runSurvey("T0", T0_PAGES, onT0);
+  if (state.eligible === false) return screenMsg("شكراً لاهتمامك", "هذه الدراسة مخصصة لأعمار من 18 إلى 55 سنة ممن يستخدمون إنستجرام 30 دقيقة يومياً على الأقل. نقدّر وقتك.");
+  if (!state.profile) return screenPrefs();
+  if (!state.cond) return doAssign();
+  if (state.ended) return screenEnded();
+  if (state.sessions.length >= 1 && !state.t1) return runSurvey("T1", wavePages("T1"), ans => afterWave("T1", ans));
+  if (state.sessions.length < CONFIG.sessions) return screenHome();
+  if (!state.t2) return runSurvey("T2", wavePages("T2"), ans => afterWave("T2", ans));
+  if (!state.t3) return screenWaitT3();
+  return screenDebrief();
+}
+function bypass(){ return !!(state.researcher && state.bypass); }
+
+/* ============================ الموافقة ============================ */
+function screenConsent(){
+  $app.innerHTML = `
+  <main class="study">
+    <h1>دراسة عن الاستخدام اليومي لتطبيق اجتماعي جديد</h1>
+    <p class="lead">ندعوك لتجربة تطبيق تواصل جديد اسمه «${CONFIG.appName}» لمدة خمسة أيام، والإجابة عن أسئلة قصيرة عن تجربتك.</p>
+    <ul class="facts">
+      <li>اليوم: أسئلة تمهيدية قصيرة (حوالي 7 دقائق).</li>
+      <li>الأيام الخمسة القادمة: جلسة تصفح واحدة يومياً بين ${h12(CONFIG.window.start)} و${h12(CONFIG.window.end)}، حوالي 5 دقائق.</li>
+      <li>بعد الجلستين الأولى والأخيرة: أسئلة قصيرة (حوالي 5 دقائق).</li>
+      <li>بعد أسبوع من آخر جلسة: أسئلة متابعة أخيرة (حوالي 3 دقائق).</li>
+      <li>نسجّل تفاعلك داخل التطبيق فقط، مثل الإعجاب والمشاركة ومدة المشاهدة. لا نطلب اسمك ولا حساباتك الحقيقية.</li>
+      <li>المشاركة اختيارية، ويمكنك الانسحاب في أي وقت دون أن تفقد ما استحققته من مقابل.</li>
+      <li>تُستخدم البيانات لأغراض البحث العلمي فقط، وتُحفظ برمز مجهول.</li>
+    </ul>
+    <label class="check"><input type="checkbox" id="agree"><span>قرأت المعلومات السابقة وأوافق على المشاركة.</span></label>
+    <button class="primary" id="go" disabled>ابدأ</button>
+    ${footHTML()}
+  </main>`;
+  const agree = document.getElementById("agree"), go = document.getElementById("go");
+  agree.onchange = () => go.disabled = !agree.checked;
+  go.onclick = () => { state.consent = true; state.enrollDate = today(); send("consent", {}); route(); };
+  wireFoot();
+}
+function footHTML(){ return CONFIG.showResearcherTools ? `<div class="foot"><button id="rmode">وضع الباحثة</button></div>` : ""; }
+function wireFoot(){ const r = document.getElementById("rmode"); if (r) r.onclick = () => { state.researcher = !state.researcher; save(); updateDebug(); }; }
+
+/* ============================ محرك الاستبيان ============================ */
+function itemHTML(it){
+  if (it.type === "likert") return `<fieldset class="q" data-q="${it.id}"><legend>${it.text}</legend>
+    <div class="lik">${[1,2,3,4,5,6,7].map(v => `<button type="button" data-v="${v}" aria-pressed="false" aria-label="${v}">${ar(v)}</button>`).join("")}</div>
+    <div class="ends"><span>أرفض بشدة</span><span>أوافق بشدة</span></div></fieldset>`;
+  if (it.type === "choice") return `<fieldset class="q" data-q="${it.id}"><legend>${it.text}</legend>
+    <div class="opts ${it.row ? "row" : ""}">${it.options.map(o => `<button type="button" data-v="${o}" aria-pressed="false">${o}</button>`).join("")}</div></fieldset>`;
+  if (it.type === "number") return `<fieldset class="q" data-q="${it.id}"><legend>${it.text}</legend>
+    <input class="inp" type="number" inputmode="numeric" min="${it.min}" max="${it.max}" data-in="${it.id}"></fieldset>`;
+  if (it.type === "longtext") return `<fieldset class="q" data-q="${it.id}"><legend>${it.text}</legend><textarea class="inp" rows="4" data-in="${it.id}" maxlength="500"></textarea></fieldset>`;
+  return `<fieldset class="q" data-q="${it.id}"><legend>${it.text}</legend><input class="inp" type="text" data-in="${it.id}" maxlength="80"></fieldset>`;
+}
+function runSurvey(wave, pages, onDone){
+  let i = 0; const answers = {}; const started = Date.now(); let fails = 0;
+  const all = pages.flatMap(p => p.items);
+  const render = () => {
+    const pg = pages[i];
+    $app.innerHTML = `<main class="study">
+      <div class="prog">صفحة ${ar(i + 1)} من ${ar(pages.length)}</div>
+      <div class="bar"><i style="width:${Math.round((i + 1) / pages.length * 100)}%"></i></div>
+      <h1>${pg.title}</h1>${pg.intro ? `<p class="lead">${pg.intro}</p>` : ""}
+      ${pg.items.map(itemHTML).join("")}
+      <button class="primary" id="nx">${i < pages.length - 1 ? "التالي" : "إرسال"}</button>
+      <div class="err" id="err" role="alert"></div>
+      ${footHTML()}
+    </main>`;
+    pg.items.forEach(it => {
+      const fs = $app.querySelector(`[data-q="${it.id}"]`);
+      if (answers[it.id] != null) {
+        const b = fs.querySelector(`[data-v="${answers[it.id]}"]`); if (b) b.setAttribute("aria-pressed", "true");
+        const inp = fs.querySelector("input,textarea"); if (inp) inp.value = answers[it.id];
+      }
+      fs.querySelectorAll("[data-v]").forEach(b => b.onclick = () => {
+        fs.querySelectorAll("[data-v]").forEach(x => x.setAttribute("aria-pressed", "false"));
+        b.setAttribute("aria-pressed", "true");
+        answers[it.id] = it.type === "likert" ? Number(b.dataset.v) : b.dataset.v;
+        fs.classList.remove("missing");
+      });
+      const inp = fs.querySelector("input,textarea");
+      if (inp) inp.oninput = () => { answers[it.id] = it.type === "number" ? (inp.value === "" ? null : Number(inp.value)) : inp.value.trim(); fs.classList.remove("missing"); };
+    });
+    document.getElementById("nx").onclick = () => {
+      const missing = pg.items.filter(it => !it.optional && (answers[it.id] == null || answers[it.id] === ""));
+      const badNum = pg.items.filter(it => it.type === "number" && answers[it.id] != null && (answers[it.id] < it.min || answers[it.id] > it.max));
+      if (missing.length || badNum.length) {
+        [...missing, ...badNum].forEach(it => $app.querySelector(`[data-q="${it.id}"]`).classList.add("missing"));
+        document.getElementById("err").textContent = badNum.length ? "تأكد من كتابة العمر بشكل صحيح." : "من فضلك أجب عن كل الأسئلة قبل المتابعة.";
+        return;
+      }
+      if (i < pages.length - 1) { i++; render(); window.scrollTo(0, 0); return; }
+      all.forEach(it => { if (it.attn && answers[it.id] !== it.attn) fails++; });
+      const ansOut = Object.assign({}, answers);
+      all.filter(it => it.attn).forEach(it => { ansOut[it.id + "_pass"] = answers[it.id] === it.attn ? 1 : 0; });
+      state.attnFails += fails;
+      send("survey", Object.assign({ wave, seconds:Math.round((Date.now() - started) / 1000), att_fail:fails }, ansOut));
+      onDone(answers);
+    };
+    wireFoot();
+  };
+  render();
+}
+function onT0(a){
+  state.t0 = true;
+  state.demo = { gender: a.gender === "ذكر" ? "m" : "f", ageband: a.age < 30 ? "18-29" : "30-55", age:a.age, student: a.occupation === "طالب متفرغ" ? 1 : 0 };
+  state.eligible = a.age >= 18 && a.age <= 55 && a.ig_minutes !== "أقل من 30 دقيقة";
+  if (!state.eligible) send("ineligible", { age:a.age, ig_minutes:a.ig_minutes });
+  save(); route();
+}
+function afterWave(w, a){ state[w.toLowerCase()] = true; save(); route(); }
+
+/* ============================ التفضيلات ============================ */
+function prefsHTML(p){
+  const group = (key, title, map) => `<fieldset class="q" data-g="${key}"><legend>${title}</legend><div class="opts">
+    ${Object.entries(map).map(([k, v]) => `<button type="button" data-k="${k}" aria-pressed="${p && p[key] === k}">${v}</button>`).join("")}</div></fieldset>`;
+  return group("dest", "أي نوع من الوجهات تفضّل؟", DEST) + group("style", "أي أسلوب سفر يناسبك؟", STYLE) + group("comp", "مع من تفضّل السفر عادة؟", COMP);
+}
+function wirePrefs(root, p){
+  root.querySelectorAll("[data-g]").forEach(g => g.querySelectorAll("[data-k]").forEach(b => b.onclick = () => {
+    g.querySelectorAll("[data-k]").forEach(x => x.setAttribute("aria-pressed", "false"));
+    b.setAttribute("aria-pressed", "true"); p[g.dataset.g] = b.dataset.k;
+  }));
+}
+function screenPrefs(){
+  const p = {};
+  $app.innerHTML = `<main class="study"><h1>اهتماماتك في السفر</h1>
+    <p class="lead">اختر إجابة واحدة لكل سؤال. ستساعد هذه الاختيارات ${CONFIG.appName} في عرض المحتوى.</p>
+    ${prefsHTML(null)}<button class="primary" id="nx">متابعة</button><div class="err" id="err"></div>${footHTML()}</main>`;
+  wirePrefs($app, p);
+  document.getElementById("nx").onclick = () => {
+    if (!p.dest || !p.style || !p.comp) { document.getElementById("err").textContent = "من فضلك اختر إجابة لكل سؤال."; return; }
+    state.profile = p; send("profile", { dest:p.dest, style:p.style, comp:p.comp }); route();
+  };
+  wireFoot();
+}
+
+/* ============================ التوزيع العشوائي ============================ */
+async function doAssign(){
+  $app.innerHTML = `<main class="study"><h1>لحظة واحدة…</h1><p class="lead">نجهّز حسابك على ${CONFIG.appName}.</p></main>`;
+  let c = null, method = "local";
+  const forced = state.researcher ? (params.get("cond") || "").toUpperCase() : "";
+  if (CONFIG.conditions[forced]) { c = forced; method = "url"; }
+  else if (CONFIG.endpoint) {
+    try { const r = await fetchJSON(`action=assign&pid=${encodeURIComponent(state.pid)}&gender=${state.demo.gender}&ageband=${state.demo.ageband}`); if (r && CONFIG.conditions[r.cond]) { c = r.cond; method = "server"; } } catch(e){}
+  }
+  if (!c && CONFIG.endpoint && !state.researcher) {
+    $app.innerHTML = `<main class="study"><h1>تعذّر الاتصال</h1><p>لم نتمكن من تجهيز حسابك الآن. تأكد من اتصالك بالإنترنت ثم حاول مرة أخرى.</p>
+      <button class="primary" id="retry">حاول مرة أخرى</button></main>`;
+    document.getElementById("retry").onclick = doAssign; return;
+  }
+  if (!c) c = "ABCD"[Math.floor(Math.random() * 4)];
+  state.cond = c;
+  const forcedLabels = state.researcher ? params.get("labels") : null;
+  state.labelMode = ["neutral", "suggested"].includes(forcedLabels) ? forcedLabels
+    : CONFIG.labelMode === "random" ? (Math.random() < 0.5 ? "neutral" : "suggested") : (CONFIG.labelMode === "suggested" ? "suggested" : "neutral");
+  state.lowSet = shuffle(ADS.map(a => a.id), rngFor(state.pid + "|lowset")).slice(0, CONFIG.setSize);
+  send("assign", { method, label_mode:state.labelMode, personalization:cond().pers, cue:cond().cue ? 1 : 0, low_set:state.lowSet.join(",") });
+  screenEnrolled();
+}
+function screenEnrolled(){
+  const link = location.href;
+  $app.innerHTML = `<main class="study"><h1>تم تسجيلك</h1>
+    <p>جلستك الأولى على ${CONFIG.appName} ستكون <b>غداً</b> بين ${h12(CONFIG.window.start)} و${h12(CONFIG.window.end)}. سنرسل لك تذكيراً.</p>
+    <p class="lead">افتح نفس الرابط كل يوم من نفس الموبايل والمتصفح. احفظه الآن:</p>
+    <div class="linkbox" id="lk">${link}</div>
+    <button class="ghost" id="cp">نسخ الرابط</button>
+    <p class="lead" style="margin-top:20px">رمز المشارك</p><div class="code">${state.pid}</div>
+    <button class="primary" id="ok">تمام</button>${footHTML()}</main>`;
+  document.getElementById("cp").onclick = async () => { try { await navigator.clipboard.writeText(link); toast("تم نسخ الرابط"); } catch(e){ toast("انسخ الرابط يدوياً"); } };
+  document.getElementById("ok").onclick = () => route();
+  wireFoot();
+}
+
+/* ============================ الشاشة الرئيسية بين الجلسات ============================ */
+function lastActivity(){ return state.sessions.length ? state.sessions[state.sessions.length - 1].date : state.enrollDate; }
+function availability(){
+  const n = state.sessions.length + 1, gap = dayDiff(lastActivity(), today());
+  if (bypass()) return { ok:true };
+  if (gap > CONFIG.maxGapDays) return { ended:true };
+  if (CONFIG.requireNextDay && gap < 1) return { ok:false, msg: n === 1 ? "جلستك الأولى متاحة غداً." : "أكملت جلسة اليوم. جلستك القادمة متاحة غداً." };
+  const h = hourNow();
+  if (CONFIG.window.enforce && (h < CONFIG.window.start || h >= CONFIG.window.end)) return { ok:false, msg:`جلسة اليوم متاحة من ${h12(CONFIG.window.start)} حتى ${h12(CONFIG.window.end)}.` };
+  return { ok:true };
+}
+function dotsHTML(){
+  return `<div class="dots" aria-label="تقدم الجلسات">${Array.from({ length:CONFIG.sessions }, (_, i) =>
+    `<span class="${i < state.sessions.length ? "done" : i === state.sessions.length ? "next" : ""}">${ar(i + 1)}</span>`).join("")}</div>`;
+}
+function screenHome(){
+  const av = availability();
+  if (av.ended) { state.ended = true; send("ended", { reason:"missed_sessions", sessions_done:state.sessions.length }); return route(); }
+  const n = state.sessions.length + 1;
+  $app.innerHTML = `<main class="study"><h1>أهلاً بعودتك</h1>
+    <div class="status"><div class="big">${av.ok ? `جلسة اليوم (${ar(n)} من ${ar(CONFIG.sessions)}) جاهزة` : `الجلسة ${ar(n)} من ${ar(CONFIG.sessions)}`}</div>
+      <div class="lead">${av.ok ? "تصفّح حوالي 5 دقائق كما تفعل عادة." : av.msg}</div>${dotsHTML()}</div>
+    ${av.ok ? `<button class="primary" id="go">افتح ${CONFIG.appName}</button>` : ""}
+    <p class="lead" style="margin-top:22px;font-size:.85rem">رمز المشارك: <span dir="ltr">${state.pid}</span></p>${footHTML()}</main>`;
+  if (av.ok) document.getElementById("go").onclick = startSession;
+  wireFoot();
+}
+function screenEnded(){ screenMsg("انتهت مشاركتك", "لم تُكمل جلستين متتاليتين، لذلك انتهت مشاركتك الفعلية في الدراسة. ستصلك مستحقات الجلسات التي أكملتها. شكراً لوقتك."); }
+function screenMsg(title, body){ $app.innerHTML = `<main class="study"><h1>${title}</h1><p>${body}</p><p class="lead">رمز المشارك: <span dir="ltr">${state.pid}</span></p>${footHTML()}</main>`; wireFoot(); }
+
+/* ============================ اختيار الإعلانات ============================ */
+function matchCount(a, p){ return (a.dest === p.dest) + (a.style === p.style) + (a.comp === p.comp); }
+function score(a){ const w = state.weights; return matchCount(a, state.profile) + (w.dest[a.dest] || 0) + (w.style[a.style] || 0) + (w.comp[a.comp] || 0); }
+function candidateSet(){
+  const eligible = ADS.filter(a => !state.hidden.includes(a.dest));
+  const tie = Object.fromEntries(shuffle(ADS.map(a => a.id), rngFor(state.pid + "|tie")).map((id, i) => [id, i]));
+  if (cond().pers === "high") return eligible.slice().sort((x, y) => score(y) - score(x) || tie[x.id] - tie[y.id]).slice(0, CONFIG.setSize).map(a => a.id);
+  const ok = new Set(eligible.map(a => a.id));
+  const set = state.lowSet.filter(id => ok.has(id));
+  shuffle(ADS.map(a => a.id), rngFor(state.pid + "|fill")).forEach(id => { if (set.length < CONFIG.setSize && ok.has(id) && !set.includes(id)) set.push(id); });
+  return set;
+}
+function pickAds(){
+  const set = candidateSet();
+  let pool = set.filter(id => !state.lastAds.includes(id));
+  if (pool.length < CONFIG.adsPerSession) pool = pool.concat(set.filter(id => !pool.includes(id)));
+  return pool.slice(0, CONFIG.adsPerSession);
+}
+function learn(){
+  const w = state.weights, clamp = v => Math.max(-1.5, Math.min(1.5, v));
+  F.ads.forEach(id => {
+    const a = AD[id], d = F.dwell[id] || 0;
+    const sig = (F.liked.has(id) ? 1 : 0) + (F.saved.has(id) ? 1 : 0) + (F.shared.has(id) ? 1.5 : 0) + (F.clicked.has(id) ? 1 : 0) + (d >= 3000 ? 0.5 : 0);
+    const delta = sig > 0 ? 0.3 * sig : (d < 1500 ? -0.15 : 0);
+    if (!delta) return;
+    ["dest", "style", "comp"].forEach(k => { w[k][a[k]] = clamp((w[k][a[k]] || 0) + delta); });
+  });
+}
+
+/* ============================ الجلسة (الفيد) ============================ */
+let F = null;
+const IC = {
+  heart:'<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.3-4.4-9.3-8.9C1.3 8.3 3.3 4.6 6.9 4.6c2 0 3.5 1 5.1 2.9 1.6-1.9 3.1-2.9 5.1-2.9 3.6 0 5.6 3.7 4.2 7-2 4.5-9.3 8.9-9.3 8.9z"/></svg>',
+  comment:'<svg viewBox="0 0 24 24"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.2 7.5L3.5 20.5l1.6-4.6a8.4 8.4 0 1 1 15.4-4.3z"/></svg>',
+  share:'<svg viewBox="0 0 24 24"><path d="M21.5 3 10 14.5M21.5 3 15 21l-5-6.5L3 9.5z"/></svg>',
+  save:'<svg viewBox="0 0 24 24"><path d="M6 3.5h12v17l-6-4.4-6 4.4z"/></svg>'
+};
+function startSession(){
+  const n = state.sessions.length + 1;
+  const ads = pickAds();
+  const orgs = ORGS.slice((n - 1) * 8, n * 8).map(o => o.id);   // ترتيب ثابت لكل المشاركين
+  const adOrder = shuffle(ads, rngFor(state.pid + "|adorder" + n));
+  const feed = []; let ai = 0, oi = 0;
+  for (let i = 0; i < 12; i++) feed.push(CONFIG.adSlots.includes(i) ? adOrder[ai++] : orgs[oi++]);
+  F = { n, feed, ads, start:Date.now(), events:[], dwell:{}, vis:{}, liked:new Set(), saved:new Set(), shared:new Set(), clicked:new Set(),
+        hiddenNow:new Set(), info:0, panel:0, edits:0, hides:0, comments:0, timer:null, obs:null,
+        match:Object.fromEntries(ads.map(id => [id, +(matchCount(AD[id], state.profile) / 3).toFixed(2)])) };
+  renderFeed();
+}
+function flog(type, extra){ F.events.push(Object.assign({ type, t:Date.now() - F.start }, extra || {})); updateDebug(); }
+const isAd = id => id.startsWith("ad_");
+function postHTML(id, idx){
+  const k = cond();
+  if (isAd(id)) {
+    const a = AD[id], c = DEST_COLORS[a.dest];
+    const sub = k.pers === "high" && lm() === "suggested" ? `<div class="psub pers">مقترح لك بناءً على اهتماماتك · ممول</div>` : `<div class="psub">ممول</div>`;
+    const why = k.cue ? `<button class="why" data-act="info" data-id="${id}">ⓘ لماذا أرى هذا الإعلان؟</button>` : "";
+    return `<article class="post" data-id="${id}" aria-label="منشور ${idx + 1}">
+      <header class="phead"><div class="pav" style="background:#1f7fb0">RT</div><div class="pmeta"><div class="pname">${CONFIG.brandHandle}</div>${sub}${why}</div></header>
+      <div class="tile" data-id="${id}" style="background:linear-gradient(160deg,${c[0]} 0%,${c[1]} 100%)">
+        <div class="badge">${a.badge}</div><div class="big" aria-hidden="true">${a.em}</div><div class="tt">${a.tt}</div>
+        <div class="burst" aria-hidden="true">${IC.heart}</div></div>
+      <button class="cta" data-act="cta" data-id="${id}"><span>احجز الآن</span><span aria-hidden="true">‹</span></button>
+      ${actionsHTML(id, idx)}<div class="cap"><b>${CONFIG.brandHandle}</b> ${a.cap}</div></article>`;
+  }
+  const o = ORG[id], initials = o.user.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase();
+  return `<article class="post" data-id="${id}" aria-label="منشور ${idx + 1}">
+    <header class="phead"><div class="pav" style="background:${o.col[1]}">${initials}</div><div class="pmeta"><div class="pname">${o.user}</div><div class="psub">${SLOT_TIMES[idx]}</div></div></header>
+    <div class="tile" data-id="${id}" style="background:linear-gradient(160deg,${o.col[0]} 0%,${o.col[1]} 100%)">
+      <div class="big" aria-hidden="true">${o.em}</div><div class="tt">${o.tt}</div><div class="burst" aria-hidden="true">${IC.heart}</div></div>
+    ${actionsHTML(id, idx)}<div class="cap"><b>${o.user}</b> ${o.cap}</div></article>`;
+}
+function actionsHTML(id, idx){
+  return `<div class="actions">
+    <button class="ib like" data-act="like" data-id="${id}" aria-pressed="false" aria-label="إعجاب">${IC.heart}</button>
+    <button class="ib" data-act="comment" data-id="${id}" aria-label="تعليق">${IC.comment}</button>
+    <button class="ib share" data-act="share" data-id="${id}" aria-pressed="false" aria-label="مشاركة">${IC.share}</button>
+    <button class="ib save" data-act="save" data-id="${id}" aria-pressed="false" aria-label="حفظ">${IC.save}</button></div>
+    <div class="likes" data-likes="${id}">${ar(SLOT_LIKES[idx])} إعجاب</div>`;
+}
+function renderFeed(){
+  const k = cond(), p = state.profile;
+  const head = lm() === "neutral" ? "منشورات اليوم"
+    : k.pers === "high"
+    ? `مختار لك بناءً على اهتماماتك<div class="chips"><span class="chip">${DEST[p.dest]}</span><span class="chip">${STYLE[p.style]}</span><span class="chip">${COMP[p.comp]}</span></div>`
+    : `رائج الآن على ${CONFIG.appName}`;
+  $app.innerHTML = `
+    <div class="appbar"><div class="logo"><i aria-hidden="true"></i>${CONFIG.appName}</div>
+      <div class="icons">${k.cue ? `<button class="adjust" id="adj">تفضيلات الإعلانات</button>` : ""}</div></div>
+    <div class="stories" aria-hidden="true">${STORIES.map(([n, c]) => `<div class="story"><div class="ring"><div class="av" style="background:${c}">${n[0]}</div></div>${n}</div>`).join("")}</div>
+    <div class="feedhead">${head}</div>
+    <div id="feed">${F.feed.map(postHTML).join("")}</div>
+    <div class="endfeed">وصلت إلى نهاية منشورات اليوم.</div>
+    <div class="donebar"><div class="in"><div class="hint" id="hint"></div><button class="primary" id="done" disabled>انتهيت من التصفح</button></div></div>`;
+  window.scrollTo(0, 0);
+  flog("session_start", { feed:F.feed.join(",") });
+  wireFeed(); startDwell(); startTimer(false);
+  const adj = document.getElementById("adj"); if (adj) adj.onclick = () => openPanel(null);
+}
+function setLikes(id){ const el = $app.querySelector(`[data-likes="${id}"]`); if (el) el.textContent = `${ar(SLOT_LIKES[F.feed.indexOf(id)] + (F.liked.has(id) ? 1 : 0))} إعجاب`; }
+function toggleLike(id, via){
+  if (F.liked.has(id)) { if (via === "doubletap") return; F.liked.delete(id); flog("unlike", { post:id }); }
+  else { F.liked.add(id); flog("like", { post:id, via }); }
+  const b = $app.querySelector(`.like[data-id="${id}"]`); if (b) b.setAttribute("aria-pressed", F.liked.has(id)); setLikes(id);
+}
+function wireFeed(){
+  const feed = document.getElementById("feed");
+  feed.onclick = e => {
+    const el = e.target.closest("[data-act]"); if (!el) return;
+    const id = el.dataset.id, act = el.dataset.act;
+    if (act === "like") toggleLike(id, "button");
+    else if (act === "save") {
+      if (F.saved.has(id)) { F.saved.delete(id); flog("unsave", { post:id }); } else { F.saved.add(id); flog("save", { post:id }); toast("تم الحفظ"); }
+      el.setAttribute("aria-pressed", F.saved.has(id));
+    }
+    else if (act === "share") openShare(id);
+    else if (act === "comment") { F.comments++; flog("comment_tap", { post:id }); toast("التعليقات غير متاحة في هذه النسخة"); }
+    else if (act === "cta") { F.clicked.add(id); flog("ad_click", { post:id }); toast("الحجز غير متاح ضمن الدراسة"); }
+    else if (act === "info") openInfo(id);
+  };
+  feed.ondblclick = e => {
+    const tile = e.target.closest(".tile"); if (!tile) return; e.preventDefault();
+    toggleLike(tile.dataset.id, "doubletap");
+    const b = tile.querySelector(".burst"); b.classList.remove("on"); void b.offsetWidth; b.classList.add("on");
+  };
+  document.getElementById("done").onclick = finishSession;
+}
+function overlay(html, onClose){
+  const o = document.createElement("div"); o.className = "overlay";
+  o.innerHTML = `<div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`;
+  document.body.appendChild(o);
+  const close = why => { o.remove(); onClose && onClose(why); };
+  o.addEventListener("click", e => { if (e.target === o) close("backdrop"); });
+  return { o, close };
+}
+function openShare(id){
+  let done = false;
+  const { o, close } = overlay(`<h2>مشاركة</h2>
+    <button class="opt" data-t="friend">إرسال إلى صديق</button><button class="opt" data-t="story">إضافة إلى قصتك</button>
+    <button class="opt" data-t="link">نسخ الرابط</button><button class="opt" data-t="cancel" style="color:var(--muted);border:0">إلغاء</button>`,
+    () => { if (!done) flog("share_cancel", { post:id }); });
+  o.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (b.dataset.t !== "cancel") { done = true; F.shared.add(id); flog("share", { post:id, target:b.dataset.t });
+      const s = $app.querySelector(`.share[data-id="${id}"]`); if (s) s.setAttribute("aria-pressed", "true"); toast("تمت المشاركة"); }
+    close(b.dataset.t);
+  });
+}
+function openInfo(id){
+  const a = AD[id], p = state.profile, opened = Date.now(); F.info++; flog("info_open", { post:id });
+  const body = cond().pers === "high"
+    ? `<p>يظهر لك هذا الإعلان لأنك اخترت: ${DEST[p.dest]}، ${STYLE[p.style]}، ${COMP[p.comp]}.</p><p>نستخدم اختياراتك فقط، ولا نشارك بياناتك مع أي جهة.</p>`
+    : `<p>يظهر هذا الإعلان لجمهور عام، ولا يعتمد على اختياراتك أو بياناتك.</p><p>لا نشارك بياناتك مع أي جهة.</p>`;
+  const { o, close } = overlay(`<h2>لماذا أرى هذا الإعلان؟</h2>${body}
+    <div class="row2"><button class="ghost" data-x="edit">تعديل اهتماماتي</button><button class="ghost" data-x="hide">إخفاء هذا النوع من الإعلانات</button></div>
+    <button class="primary" data-x="ok" style="margin-top:12px">حسناً</button>`, () => flog("info_close", { post:id, ms:Date.now() - opened }));
+  o.querySelector('[data-x="ok"]').onclick = () => close("ok");
+  o.querySelector('[data-x="edit"]').onclick = () => { close("edit"); openPanel("edit"); };
+  o.querySelector('[data-x="hide"]').onclick = () => { close("hide"); hideType(a.dest, id); };
+}
+function hideType(dest, fromId){
+  if (!state.hidden.includes(dest)) state.hidden.push(dest);
+  F.hides++; flog("hide_type", { dest, post:fromId || "" }); save();
+  F.feed.filter(id => isAd(id) && AD[id].dest === dest).forEach(id => {
+    const el = $app.querySelector(`.post[data-id="${id}"]`); F.hiddenNow.add(id);
+    if (el) { el.className = "post hidden-ad"; el.innerHTML = `تم إخفاء الإعلان. لن تظهر لك إعلانات عن «${DEST[dest]}» مرة أخرى.`; }
+  });
+  toast("تم إخفاء هذا النوع من الإعلانات");
+}
+function openPanel(mode){
+  F.panel++; flog("panel_open", { from: mode || "button" });
+  const p = Object.assign({}, state.profile);
+  const hiddenList = state.hidden.length
+    ? state.hidden.map(d => `<button class="ghost" data-unhide="${d}" style="margin:0 0 6px 6px">إظهار «${DEST[d]}» مجدداً</button>`).join("")
+    : `<p class="lead" style="font-size:.88rem">لم تُخفِ أي نوع من الإعلانات.</p>`;
+  const { o, close } = overlay(`<h2>تفضيلات الإعلانات</h2>
+    <p class="lead" style="font-size:.9rem">${cond().pers === "high" ? "تُستخدم هذه الاختيارات لاقتراح الإعلانات، وتظهر التغييرات من جلستك القادمة." : "يمكنك تعديل اهتماماتك هنا. الإعلانات الحالية تُعرض لجمهور عام."}</p>
+    ${prefsHTML(p)}<h2>الإعلانات المخفية</h2>${hiddenList}
+    <button class="primary" data-x="save" style="margin-top:12px">حفظ</button>`, () => flog("panel_close"));
+  wirePrefs(o, p);
+  o.querySelectorAll("[data-unhide]").forEach(b => b.onclick = () => {
+    state.hidden = state.hidden.filter(d => d !== b.dataset.unhide); flog("unhide_type", { dest:b.dataset.unhide }); save(); b.remove(); toast("سيظهر هذا النوع مجدداً");
+  });
+  o.querySelector('[data-x="save"]').onclick = () => {
+    const changed = ["dest", "style", "comp"].filter(k => p[k] !== state.profile[k]);
+    if (changed.length) { F.edits++; flog("edit_prefs", { from:JSON.stringify(state.profile), to:JSON.stringify(p) }); state.profile = p; save(); toast("تم تحديث اهتماماتك"); }
+    close("save");
+  };
+}
+function startDwell(){
+  if (F.obs) F.obs.disconnect();
+  if (!("IntersectionObserver" in window)) return;
+  F.obs = new IntersectionObserver(entries => {
+    const t = Date.now();
+    entries.forEach(en => { const id = en.target.dataset.id;
+      if (en.intersectionRatio >= 0.5) { if (!F.vis[id]) F.vis[id] = t; }
+      else if (F.vis[id]) { F.dwell[id] = (F.dwell[id] || 0) + (t - F.vis[id]); delete F.vis[id]; } });
+  }, { threshold:[0, 0.5, 1] });
+  $app.querySelectorAll(".post").forEach(el => F.obs.observe(el));
+}
+function flushDwell(){ const t = Date.now(); Object.keys(F.vis).forEach(id => { F.dwell[id] = (F.dwell[id] || 0) + (t - F.vis[id]); delete F.vis[id]; }); }
+document.addEventListener("visibilitychange", () => {
+  if (!F || F.end) return;
+  if (document.hidden) { flushDwell(); flog("tab_hidden"); } else { flog("tab_visible"); startDwell(); }
+});
+function startTimer(skip){
+  clearInterval(F.timer);
+  const hint = document.getElementById("hint"), done = document.getElementById("done");
+  const tick = () => {
+    const left = skip ? 0 : CONFIG.minSessionSeconds - Math.floor((Date.now() - F.start) / 1000);
+    if (left <= 0) { done.disabled = false; hint.textContent = "يمكنك الإنهاء متى شئت، أو متابعة التصفح."; clearInterval(F.timer); }
+    else { done.disabled = true; hint.textContent = `تابع التصفح بشكل طبيعي · يمكنك الإنهاء بعد ${ar(left)} ثانية`; }
+  };
+  tick(); F.timer = setInterval(tick, 1000);
+}
+function finishSession(){
+  flushDwell(); if (F.obs) F.obs.disconnect(); clearInterval(F.timer); F.end = Date.now(); flog("session_end");
+  learn();
+  F.ads.forEach(id => state.exposures[id] = (state.exposures[id] || 0) + 1);
+  state.lastAds = F.ads.slice();
+  screenSessionItem();
+}
+function screenSessionItem(){
+  let v = null;
+  $app.innerHTML = `<main class="study"><h1>سؤال واحد قبل أن تذهب</h1>
+    ${itemHTML(L("sess_pers", "الإعلانات التي رأيتها اليوم طابقت اهتماماتي."))}
+    <button class="primary" id="nx" disabled>إرسال</button>${footHTML()}</main>`;
+  $app.querySelectorAll("[data-v]").forEach(b => b.onclick = () => {
+    $app.querySelectorAll("[data-v]").forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true");
+    v = Number(b.dataset.v); document.getElementById("nx").disabled = false; });
+  document.getElementById("nx").onclick = () => saveSession(v);
+  wireFoot();
+}
+function saveSession(persItem){
+  const dwell = {}; F.feed.forEach(id => dwell[id] = Math.round(F.dwell[id] || 0));
+  const sum = f => F.feed.filter(f).reduce((s, id) => s + dwell[id], 0);
+  const ads = F.ads, liked = [...F.liked];
+  const adEng = ads.reduce((s, id) => s + (F.liked.has(id) ? 1 : 0) + (F.shared.has(id) ? 1 : 0) + (F.saved.has(id) ? 1 : 0) + (F.clicked.has(id) ? 1 : 0), 0);
+  const orgIds = F.feed.filter(id => !isAd(id));
+  const orgEng = orgIds.reduce((s, id) => s + (F.liked.has(id) ? 1 : 0) + (F.shared.has(id) ? 1 : 0) + (F.saved.has(id) ? 1 : 0), 0);
+  const rec = {
+    session:F.n, label_mode:lm(), personalization:cond().pers, cue:cond().cue ? 1 : 0, profile:`${state.profile.dest}|${state.profile.style}|${state.profile.comp}`,
+    ad_ids:ads.join(","), org_ids:orgIds.join(","), feed_order:F.feed.join(","),
+    match_mean:+(ads.reduce((s, id) => s + F.match[id], 0) / ads.length).toFixed(3), match_by_ad:JSON.stringify(F.match),
+    ad_engagement:adEng, org_engagement:orgEng,
+    likes_ads:ads.filter(id => F.liked.has(id)).length, likes_org:orgIds.filter(id => F.liked.has(id)).length,
+    shares_ads:ads.filter(id => F.shared.has(id)).length, shares_org:orgIds.filter(id => F.shared.has(id)).length,
+    saves_ads:ads.filter(id => F.saved.has(id)).length, saves_org:orgIds.filter(id => F.saved.has(id)).length,
+    ad_clicks:F.clicked.size, liked_ids:liked.join(","),
+    info_opens:F.info, panel_opens:F.panel, pref_edits:F.edits, hides:F.hides, comment_taps:F.comments,
+    dwell_ads_ms:sum(isAd), dwell_org_ms:sum(id => !isAd(id)), dwell_by_post:JSON.stringify(dwell),
+    session_seconds:Math.round((F.end - F.start) / 1000), sess_pers:persItem,
+    exposures:JSON.stringify(state.exposures), weights:JSON.stringify(state.weights), hidden:state.hidden.join(","),
+    device: window.innerWidth < 700 ? "mobile" : "desktop", hour:hourNow(), events:JSON.stringify(F.events)
+  };
+  state.sessions.push({ n:F.n, date:today(), ad_engagement:adEng, match_mean:rec.match_mean });
+  send("session", rec);
+  F = null;
+  if (state.sessions.length === 1 || state.sessions.length === CONFIG.sessions) return route();
+  screenMsg("شكراً، انتهت جلسة اليوم", `أكملت ${ar(state.sessions.length)} من ${ar(CONFIG.sessions)} جلسات. نراك غداً بين ${h12(CONFIG.window.start)} و${h12(CONFIG.window.end)}.`);
+}
+
+/* ============================ المتابعة والإيضاح ============================ */
+function screenWaitT3(){
+  const s5 = state.sessions[state.sessions.length - 1].date, left = CONFIG.followupDelayDays - dayDiff(s5, today());
+  if (left > 0 && !bypass()) {
+    const due = new Date(Date.parse(s5) + CONFIG.followupDelayDays * 864e5).toLocaleDateString("ar-EG", { weekday:"long", day:"numeric", month:"long" });
+    $app.innerHTML = `<main class="study"><h1>أكملت الجلسات الخمس</h1>
+      <div class="status"><div class="big">بقيت خطوة أخيرة</div><div class="lead">عُد إلى نفس الرابط يوم ${due} للإجابة عن أسئلة متابعة قصيرة (حوالي 3 دقائق). سنرسل لك تذكيراً.</div>${dotsHTML()}</div>
+      <p class="lead" style="font-size:.85rem">رمز المشارك: <span dir="ltr">${state.pid}</span></p>${footHTML()}</main>`;
+    wireFoot(); return;
+  }
+  runSurvey("T3", T3_PAGES, () => { state.t3 = true; save(); route(); });
+}
+function screenDebrief(){
+  if (!state.debriefed) { state.debriefed = true; send("debriefed", {}); }
+  $app.innerHTML = `<main class="study"><h1>شكراً، أكملت الدراسة</h1>
+    <h2>ما الذي كنا ندرسه؟</h2>
+    <p>هدف الدراسة معرفة كيف يؤثر تخصيص الإعلانات بالذكاء الاصطناعي، وشرح سبب ظهورها، على ثقة المستخدمين وتفاعلهم.</p>
+    <p>تطبيق «${CONFIG.appName}» وشركة «${CONFIG.brandAr}» غير حقيقيين، وصُمما لهذه الدراسة فقط. وُزّع المشاركون عشوائياً على أربع نسخ: في بعضها كانت الإعلانات مختارة حسب اهتماماتك ويتعلم النظام من تفاعلك، وفي بعضها كانت عشوائية. وفي بعض النسخ ظهر شرح «لماذا أرى هذا الإعلان؟» وأدوات التحكم، وفي بعضها لم يظهر.</p>
+    <p>لم نخبرك بذلك من البداية لأن معرفته كانت ستغيّر طريقة تصفحك. تُحفظ بياناتك برمز مجهول، وتُستخدم لأغراض البحث العلمي فقط.</p>
+    <p class="lead">رمز المشارك (لصرف المستحقات)</p><div class="code">${state.pid}</div>
+    <p class="lead" style="font-size:.88rem">إذا كنت لا تريد استخدام بياناتك في البحث، يمكنك طلب حذفها الآن.</p>
+    <button class="ghost" id="wd">أريد حذف بياناتي</button>${footHTML()}</main>`;
+  document.getElementById("wd").onclick = () => {
+    if (!confirm("سيتم حذف كل بياناتك من الدراسة. هل أنت متأكد؟")) return;
+    state.withdrawn = true; send("withdraw", {}); route();
+  };
+  wireFoot();
+}
+
+/* ============================ لوحة الباحثة ============================ */
+let dbgMin = false;
+function updateDebug(){
+  let p = document.getElementById("dbg");
+  if (!state || !state.researcher) { if (p) p.remove(); return; }
+  if (!p) { p = document.createElement("div"); p.id = "dbg"; p.className = "dbg"; document.body.appendChild(p); }
+  if (dbgMin) { p.innerHTML = `<button id="dbMax" style="margin:0">وضع الباحثة ▸</button>`; p.querySelector("#dbMax").onclick = () => { dbgMin = false; updateDebug(); }; return; }
+  const k = state.cond ? cond() : null;
+  p.innerHTML = `<button class="min" id="dbMin">—</button>
+    <div><b>وضع الباحثة</b> · <span dir="ltr">${state.pid}</span></div>
+    <div>المجموعة: <b>${state.cond || "لم تُحدد"}</b>${k ? ` (${k.pers === "high" ? "تخصيص عالٍ" : "منخفض"}، ${k.cue ? "إشارة" : "بلا إشارة"})` : ""}</div>
+    <div>الوسوم: <b>${state.labelMode ? (state.labelMode === "suggested" ? "مقترح لك" : "ممول للجميع") : "تُحدد عند التوزيع"}</b></div>
+    <div>اليوم المحاكى: ${today()} (+${state.offset}) · الساعة ${hourNow()}</div>
+    <div>الجلسات: ${state.sessions.length}/${CONFIG.sessions} · T1 ${state.t1 ? "✓" : "–"} T2 ${state.t2 ? "✓" : "–"} T3 ${state.t3 ? "✓" : "–"}</div>
+    <div>بانتظار الإرسال: ${state.outbox.length} ${CONFIG.endpoint ? "" : "(لا يوجد endpoint)"}</div>
+    ${F ? `<div>الآن: إعجاب ${F.liked.size} · مشاركة ${F.shared.size} · حفظ ${F.saved.size} · ضغط ${F.clicked.size}</div>` : ""}
+    <button id="dbDay">تقدّم يوماً</button>
+    <button id="dbBy">${state.bypass ? "إلغاء تجاوز القيود" : "تجاوز قيود الوقت"}</button>
+    ${F ? `<button id="dbSkip">تخطّي مؤقت الجلسة</button>` : ""}
+    <select id="dbCond" aria-label="المجموعة">${Object.keys(CONFIG.conditions).map(c => `<option ${c === state.cond ? "selected" : ""}>${c}</option>`).join("")}</select>
+    <select id="dbLab" aria-label="الوسوم"><option value="neutral" ${lm() === "neutral" ? "selected" : ""}>وسوم: ممول للجميع</option><option value="suggested" ${lm() === "suggested" ? "selected" : ""}>وسوم: مقترح لك</option></select>
+    <button id="dbCopy">نسخ كل البيانات المحلية</button>
+    <button id="dbReset">إعادة ضبط المشارك</button>`;
+  p.querySelector("#dbMin").onclick = () => { dbgMin = true; updateDebug(); };
+  p.querySelector("#dbDay").onclick = () => { state.offset++; save(); if (!F) route(); updateDebug(); };
+  p.querySelector("#dbBy").onclick = () => { state.bypass = !state.bypass; save(); if (!F) route(); updateDebug(); };
+  const sk = p.querySelector("#dbSkip"); if (sk) sk.onclick = () => startTimer(true);
+  p.querySelector("#dbCond").onchange = e => { state.cond = e.target.value; save(); if (F) { startSession(); } updateDebug(); };
+  p.querySelector("#dbLab").onchange = e => { state.labelMode = e.target.value; save(); if (F) startSession(); updateDebug(); };
+  p.querySelector("#dbCopy").onclick = () => {
+    const txt = JSON.stringify(state.log, null, 1);
+    const { o } = overlay(`<h2>كل السجلات المحلية</h2><textarea class="data" readonly>${txt.replace(/</g, "&lt;")}</textarea><button class="primary" data-c style="margin-top:10px">نسخ</button>`);
+    o.querySelector("[data-c]").onclick = async () => { try { await navigator.clipboard.writeText(txt); toast("تم النسخ"); } catch(e){ o.querySelector("textarea").select(); toast("حدّد النص وانسخه يدوياً"); } };
+  };
+  p.querySelector("#dbReset").onclick = () => {
+    if (!confirm("حذف كل بيانات هذا المشارك من هذا المتصفح والبدء من جديد؟")) return;
+    try { localStorage.removeItem(KEY); } catch(e){}
+    const keep = { researcher:true }; state = Object.assign(freshState("P" + Math.floor(100000 + Math.random() * 900000)), keep);
+    try { const u = new URL(location.href); u.searchParams.set("pid", state.pid); history.replaceState(null, "", u.toString()); } catch(e){}
+    F = null; save(); route(); updateDebug();
+  };
+}
+
+init();
+</script>
+</body>
+</html>
